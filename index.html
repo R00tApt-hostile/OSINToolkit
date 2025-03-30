@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate OSINT Toolkit</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕵️‍♂️ Ultimate OSINT Toolkit</h1>
+            <p class="subtitle">100% client-side privacy tools</p>
+        </header>
+
+        <!-- Tool Selector -->
+        <div class="tool-selector">
+            <button class="active" data-tool="email">Email Check</button>
+            <button data-tool="username">Username Search</button>
+            <button data-tool="ip">IP Lookup</button>
+            <button data-tool="whois">WHOIS Lookup</button>
+            <button data-tool="image">Reverse Image</button>
+            <button data-tool="phone">Phone Lookup</button>
+            <button data-tool="dork">Google Dorks</button>
+            <button data-tool="btc">BTC Lookup</button>
+            <button data-tool="youtube">YouTube Data</button>
+            <button data-tool="screenshot">Screenshot</button>
+            <button data-tool="headers">HTTP Headers</button>
+            <button data-tool="ssl">SSL Check</button>
+        </div>
+
+        <!-- Tool Containers -->
+        <div id="email-tool" class="tool">
+            <h2>📧 Email Verification</h2>
+            <input type="email" id="email-input" placeholder="email@example.com">
+            <button id="check-email">Check</button>
+            <div class="result" id="email-result"></div>
+        </div>
+
+        <div id="username-tool" class="tool" style="display:none">
+            <h2>👤 Username Search</h2>
+            <input type="text" id="username-input" placeholder="username">
+            <button id="check-username">Search 50+ Sites</button>
+            <div class="result" id="username-result"></div>
+        </div>
+
+        <div id="ip-tool" class="tool" style="display:none">
+            <h2>🌐 IP Lookup</h2>
+            <input type="text" id="ip-input" placeholder="8.8.8.8">
+            <button id="check-ip">Lookup</button>
+            <div class="result" id="ip-result"></div>
+        </div>
+
+        <div id="whois-tool" class="tool" style="display:none">
+            <h2>🔍 Domain WHOIS</h2>
+            <input type="text" id="whois-input" placeholder="example.com">
+            <button id="check-whois">Lookup</button>
+            <div class="result" id="whois-result"></div>
+        </div>
+
+        <div id="image-tool" class="tool" style="display:none">
+            <h2>🖼️ Reverse Image Search</h2>
+            <input type="file" id="image-input" accept="image/*">
+            <div class="result" id="image-result"></div>
+        </div>
+
+        <div id="phone-tool" class="tool" style="display:none">
+            <h2>📞 Phone Lookup</h2>
+            <input type="text" id="phone-input" placeholder="+1234567890">
+            <button id="check-phone">Lookup</button>
+            <div class="result" id="phone-result"></div>
+        </div>
+
+        <div id="dork-tool" class="tool" style="display:none">
+            <h2>🕵️‍♂️ Google Dork Generator</h2>
+            <select id="dork-type">
+                <option value="site:">Search within site</option>
+                <option value="filetype:pdf">Find PDFs</option>
+                <option value="intitle:admin">Find admin pages</option>
+            </select>
+            <input type="text" id="dork-query" placeholder="query">
+            <button id="generate-dork">Generate</button>
+            <div class="result" id="dork-result"></div>
+        </div>
+
+        <div id="btc-tool" class="tool" style="display:none">
+            <h2>💰 BTC Address Lookup</h2>
+            <input type="text" id="btc-input" placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+            <button id="check-btc">Lookup</button>
+            <div class="result" id="btc-result"></div>
+        </div>
+
+        <div id="youtube-tool" class="tool" style="display:none">
+            <h2>📺 YouTube Data</h2>
+            <input type="text" id="youtube-input" placeholder="https://youtube.com/watch?v=...">
+            <button id="check-youtube">Extract</button>
+            <div class="result" id="youtube-result"></div>
+        </div>
+
+        <div id="screenshot-tool" class="tool" style="display:none">
+            <h2>📸 Website Screenshot</h2>
+            <input type="text" id="screenshot-input" placeholder="https://example.com">
+            <button id="take-screenshot">Capture</button>
+            <div class="result" id="screenshot-result"></div>
+        </div>
+
+        <div id="headers-tool" class="tool" style="display:none">
+            <h2>📡 HTTP Headers</h2>
+            <input type="text" id="headers-input" placeholder="https://example.com">
+            <button id="check-headers">Analyze</button>
+            <div class="result" id="headers-result"></div>
+        </div>
+
+        <div id="ssl-tool" class="tool" style="display:none">
+            <h2>🔐 SSL Checker</h2>
+            <input type="text" id="ssl-input" placeholder="example.com">
+            <button id="check-ssl">Check</button>
+            <div class="result" id="ssl-result"></div>
+        </div>
+
+        <footer>
+            <p>🔒 No tracking. No data stored. API keys required for some features.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
