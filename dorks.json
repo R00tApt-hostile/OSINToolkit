@@ -10,3 +10,10 @@
   {"prefix": "define:", "description": "Get definitions"},
   {"prefix": "weather:", "description": "Get weather info"}
 ]
+{
+  "site": "site:{}",
+  "filetype": "filetype:{}",
+  "intitle": "intitle:\"{}\"",
+  "inurl": "inurl:{}",
+  "ext": "ext:{}"
+}
