@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon OSINT Toolkit</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+    <title>Neon OSINT Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,12 +14,11 @@
             --accent-hover: #818cf8;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --card-bg: rgba(15, 23, 42, 0.8);
-            --card-border: rgba(99, 102, 241, 0.3);
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --tooltip-bg: rgba(0, 0, 0, 0.9);
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --card-border: rgba(99, 102, 241, 0.3);
         }
 
         * {
@@ -34,16 +33,15 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            padding: 20px;
             background-image: 
                 radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.15) 0px, transparent 50%),
                 radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
-            padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
         }
 
         header {
@@ -64,74 +62,52 @@
         .subtitle {
             color: var(--text-secondary);
             font-size: 1.1rem;
+        }
+
+        /* Tool Navigation */
+        .tool-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
             margin-bottom: 2rem;
         }
 
-        /* Tabbed Interface */
-        .tool-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .tool-tabs::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .tool-tabs::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 3px;
-        }
-
-        .tab-btn {
-            background: transparent;
-            color: var(--text-secondary);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
+        .nav-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
+            padding: 12px;
             cursor: pointer;
+            text-align: center;
             transition: all 0.3s ease;
-            position: relative;
-            white-space: nowrap;
-            flex-shrink: 0;
         }
 
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: var(--accent);
-            transition: width 0.3s ease;
+        .nav-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
         }
 
-        .tab-btn:hover {
-            color: var(--text-primary);
-            background: rgba(99, 102, 241, 0.1);
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent);
         }
 
-        .tab-btn.active {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .tab-btn.active::after {
-            width: 80%;
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
         /* Tool Windows */
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
         .tool-window {
             background: var(--card-bg);
             border-radius: 12px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
             border: 1px solid var(--card-border);
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -151,31 +127,13 @@
         .tool-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 12px;
             margin-bottom: 1.5rem;
-        }
-
-        .tool-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(99, 102, 241, 0.2);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
         }
 
         .tool-title {
             font-size: 1.5rem;
             font-weight: 600;
-            margin: 0;
-        }
-
-        .tool-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 0.25rem;
         }
 
         /* Form Elements */
@@ -187,14 +145,13 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--text-secondary);
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 12px;
             background: rgba(2, 6, 23, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
@@ -207,31 +164,18 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
-        .input-hint {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
         button {
             background: var(--accent);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 12px 24px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         button:hover {
@@ -239,26 +183,9 @@
             transform: translateY(-2px);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
         button.secondary {
             background: transparent;
             border: 1px solid var(--card-border);
-            color: var(--text-primary);
-        }
-
-        button.secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        button.icon-btn {
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            justify-content: center;
         }
 
         /* Results */
@@ -268,21 +195,14 @@
             background: rgba(2, 6, 23, 0.5);
             border-radius: 8px;
             border-left: 4px solid var(--accent);
-            display: none;
-        }
-
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
         }
 
         .result-title {
             font-weight: 600;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
         pre {
@@ -294,267 +214,27 @@
             font-size: 0.9rem;
         }
 
-        .result-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .result-grid {
-                grid-template-columns: 1fr 2fr;
-            }
-        }
-
-        .result-status {
-            padding: 1rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-        }
-
-        .result-status.success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .result-status.error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        .result-details {
-            padding: 0.5rem;
-        }
-
-        .suggestion {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         /* Status Indicators */
-        .success {
+        .positive {
             color: var(--success);
+        }
+
+        .negative {
+            color: var(--danger);
         }
 
         .warning {
             color: var(--warning);
         }
 
-        .error {
-            color: var(--danger);
-        }
-
-        .loading-text {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Tooltip System */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: help;
-            margin-left: 0.25rem;
-        }
-        
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: var(--tooltip-bg);
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 0.5rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
-            font-weight: normal;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Animated Loader */
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: var(--accent);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 56px;
-            height: 56px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-            cursor: pointer;
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-
-        .fab:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
-        }
-
-        /* Quick Actions Menu */
-        .quick-actions-menu {
-            position: fixed;
-            bottom: calc(56px + 1rem);
-            right: 2rem;
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1rem;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            z-index: 99;
-            display: none;
-        }
-
-        .quick-action-card {
-            min-width: 200px;
-        }
-
-        .quick-action-card h4 {
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quick-action-btn {
-            width: 100%;
-            text-align: left;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quick-action-btn:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        /* Keyboard Shortcut Highlight */
-        kbd {
-            background-color: var(--bg-darker);
-            border: 1px solid var(--card-border);
-            border-radius: 4px;
-            padding: 0.2rem 0.4rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8em;
-            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
-        }
-
-        /* Notifications */
-        .notification {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideIn 0.3s ease forwards;
-            z-index: 1000;
-        }
-
-        .notification.success {
-            border-color: var(--success);
-        }
-
-        .notification.error {
-            border-color: var(--danger);
-        }
-
-        @keyframes slideIn {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .fade-out {
-            animation: fadeOut 0.5s ease forwards;
-        }
-
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0.5rem;
+            .tool-nav {
+                grid-template-columns: repeat(3, 1fr);
             }
             
             h1 {
                 font-size: 2rem;
-            }
-            
-            .tool-window {
-                padding: 1rem;
-            }
-            
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .fab {
-                bottom: 1rem;
-                right: 1rem;
-            }
-            
-            .quick-actions-menu {
-                bottom: calc(56px + 0.5rem);
-                right: 1rem;
             }
         }
     </style>
@@ -562,223 +242,363 @@
 <body>
     <div class="container">
         <header>
-            <h1>Neon OSINT Toolkit</h1>
-            <p class="subtitle">Advanced open-source intelligence gathering in a modern interface</p>
+            <h1>Neon OSINT Pro</h1>
+            <p class="subtitle">Advanced open-source intelligence toolkit with 12+ tools</p>
         </header>
 
-        <div class="tool-tabs">
-            <button class="tab-btn active" data-tool="email">
-                <i class="fas fa-envelope"></i> Email
-            </button>
-            <button class="tab-btn" data-tool="username">
-                <i class="fas fa-user"></i> Username
-            </button>
-            <button class="tab-btn" data-tool="ip">
-                <i class="fas fa-globe"></i> IP Lookup
-            </button>
-            <button class="tab-btn" data-tool="whois">
-                <i class="fas fa-search"></i> WHOIS
-            </button>
-            <button class="tab-btn" data-tool="image">
-                <i class="fas fa-image"></i> Reverse Image
-            </button>
+        <!-- Tool Navigation -->
+        <div class="tool-nav">
+            <div class="nav-item active" data-tool="email">
+                <div class="nav-icon">📧</div>
+                <div>Email Check</div>
+            </div>
+            <div class="nav-item" data-tool="username">
+                <div class="nav-icon">👤</div>
+                <div>Username</div>
+            </div>
+            <div class="nav-item" data-tool="ip">
+                <div class="nav-icon">🌐</div>
+                <div>IP Lookup</div>
+            </div>
+            <div class="nav-item" data-tool="whois">
+                <div class="nav-icon">🔍</div>
+                <div>WHOIS</div>
+            </div>
+            <div class="nav-item" data-tool="image">
+                <div class="nav-icon">🖼️</div>
+                <div>Reverse Image</div>
+            </div>
+            <div class="nav-item" data-tool="phone">
+                <div class="nav-icon">📞</div>
+                <div>Phone</div>
+            </div>
+            <div class="nav-item" data-tool="domain">
+                <div class="nav-icon">🌍</div>
+                <div>Domain Age</div>
+            </div>
+            <div class="nav-item" data-tool="social">
+                <div class="nav-icon">👥</div>
+                <div>Social Media</div>
+            </div>
+            <div class="nav-item" data-tool="breach">
+                <div class="nav-icon">🔓</div>
+                <div>Breach Check</div>
+            </div>
+            <div class="nav-item" data-tool="metadata">
+                <div class="nav-icon">📁</div>
+                <div>Metadata</div>
+            </div>
+            <div class="nav-item" data-tool="dorking">
+                <div class="nav-icon">🕵️</div>
+                <div>Google Dorks</div>
+            </div>
+            <div class="nav-item" data-tool="archive">
+                <div class="nav-icon">⏳</div>
+                <div>Wayback</div>
+            </div>
         </div>
 
-        <!-- Email Tool -->
-        <div id="email-tool" class="tool-window active">
-            <div class="tool-header">
-                <div class="tool-icon">📧</div>
-                <div>
+        <!-- Tool Container -->
+        <div class="tool-container">
+            <!-- Email Tool -->
+            <div id="email-tool" class="tool-window active">
+                <div class="tool-header">
+                    <div class="nav-icon">📧</div>
                     <h2 class="tool-title">Email Verification</h2>
-                    <p class="tool-subtitle">Check deliverability and domain reputation</p>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label for="email-input">
-                    Email Address 
-                    <span class="tooltip">
-                        <i class="fas fa-info-circle"></i>
-                        <span class="tooltiptext">We never store searched emails. All checks happen in your browser.</span>
-                    </span>
-                </label>
-                <input type="email" id="email-input" placeholder="example@domain.com">
-                <small class="input-hint">Press <kbd>Enter</kbd> to search</small>
-            </div>
-            
-            <div class="button-group">
+                
+                <div class="input-group">
+                    <label for="email-input">Email Address</label>
+                    <input type="email" id="email-input" placeholder="example@domain.com">
+                </div>
+                
                 <button id="check-email">
-                    <span id="email-loader" class="loader" style="display: none;"></span>
-                    <span id="email-btn-text"><i class="fas fa-search"></i> Verify Email</span>
+                    <i class="fas fa-search"></i> Verify Email
                 </button>
-                <button id="advanced-email" class="secondary">
-                    <i class="fas fa-cog"></i> Advanced
-                </button>
-            </div>
-            
-            <div class="result-container" id="email-result">
-                <div class="result-header">
+                
+                <div class="result-container" id="email-result" style="display: none;">
                     <h3 class="result-title">
-                        <i class="fas fa-envelope-open-text"></i> Results
+                        <i class="fas fa-envelope-open"></i> Results
                     </h3>
-                    <button id="copy-email-results" class="icon-btn">
-                        <i class="far fa-copy"></i>
-                    </button>
+                    <div id="email-result-content"></div>
                 </div>
-                <div id="email-result-content"></div>
             </div>
-        </div>
 
-        <!-- Username Tool -->
-        <div id="username-tool" class="tool-window">
-            <div class="tool-header">
-                <div class="tool-icon">👤</div>
-                <div>
+            <!-- Username Tool -->
+            <div id="username-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">👤</div>
                     <h2 class="tool-title">Username Search</h2>
-                    <p class="tool-subtitle">Check username availability across 50+ platforms</p>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label for="username-input">Username</label>
-                <input type="text" id="username-input" placeholder="johndoe">
-            </div>
-            
-            <button id="check-username">
-                <i class="fas fa-search"></i> Search Platforms
-            </button>
-            
-            <div class="result-container" id="username-result">
-                <div class="result-header">
+                
+                <div class="input-group">
+                    <label for="username-input">Username</label>
+                    <input type="text" id="username-input" placeholder="johndoe">
+                </div>
+                
+                <button id="check-username">
+                    <i class="fas fa-search"></i> Search 50+ Sites
+                </button>
+                
+                <div class="result-container" id="username-result" style="display: none;">
                     <h3 class="result-title">
                         <i class="fas fa-users"></i> Results
                     </h3>
-                    <button id="copy-username-results" class="icon-btn">
-                        <i class="far fa-copy"></i>
-                    </button>
+                    <div id="username-result-content"></div>
                 </div>
-                <div id="username-result-content"></div>
             </div>
-        </div>
 
-        <!-- IP Lookup Tool -->
-        <div id="ip-tool" class="tool-window">
-            <div class="tool-header">
-                <div class="tool-icon">🌐</div>
-                <div>
+            <!-- IP Lookup Tool -->
+            <div id="ip-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">🌐</div>
                     <h2 class="tool-title">IP Address Lookup</h2>
-                    <p class="tool-subtitle">Geolocation and network information</p>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label for="ip-input">IP Address</label>
-                <input type="text" id="ip-input" placeholder="8.8.8.8">
-            </div>
-            
-            <button id="check-ip">
-                <i class="fas fa-search"></i> Lookup IP
-            </button>
-            
-            <div class="result-container" id="ip-result">
-                <div class="result-header">
+                
+                <div class="input-group">
+                    <label for="ip-input">IP Address</label>
+                    <input type="text" id="ip-input" placeholder="8.8.8.8">
+                </div>
+                
+                <button id="check-ip">
+                    <i class="fas fa-search"></i> Lookup IP
+                </button>
+                
+                <div class="result-container" id="ip-result" style="display: none;">
                     <h3 class="result-title">
                         <i class="fas fa-network-wired"></i> Results
                     </h3>
-                    <button id="copy-ip-results" class="icon-btn">
-                        <i class="far fa-copy"></i>
-                    </button>
+                    <div id="ip-result-content"></div>
                 </div>
-                <div id="ip-result-content"></div>
             </div>
-        </div>
 
-        <!-- WHOIS Tool -->
-        <div id="whois-tool" class="tool-window">
-            <div class="tool-header">
-                <div class="tool-icon">🔍</div>
-                <div>
+            <!-- WHOIS Tool -->
+            <div id="whois-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">🔍</div>
                     <h2 class="tool-title">WHOIS Lookup</h2>
-                    <p class="tool-subtitle">Domain registration details</p>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label for="whois-input">Domain Name</label>
-                <input type="text" id="whois-input" placeholder="example.com">
-            </div>
-            
-            <button id="check-whois">
-                <i class="fas fa-search"></i> Lookup Domain
-            </button>
-            
-            <div class="result-container" id="whois-result">
-                <div class="result-header">
+                
+                <div class="input-group">
+                    <label for="whois-input">Domain Name</label>
+                    <input type="text" id="whois-input" placeholder="example.com">
+                </div>
+                
+                <button id="check-whois">
+                    <i class="fas fa-search"></i> Lookup Domain
+                </button>
+                
+                <div class="result-container" id="whois-result" style="display: none;">
                     <h3 class="result-title">
                         <i class="fas fa-database"></i> Results
                     </h3>
-                    <button id="copy-whois-results" class="icon-btn">
-                        <i class="far fa-copy"></i>
-                    </button>
+                    <div id="whois-result-content"></div>
                 </div>
-                <div id="whois-result-content"></div>
             </div>
-        </div>
 
-        <!-- Reverse Image Tool -->
-        <div id="image-tool" class="tool-window">
-            <div class="tool-header">
-                <div class="tool-icon">🖼️</div>
-                <div>
+            <!-- Reverse Image Tool -->
+            <div id="image-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">🖼️</div>
                     <h2 class="tool-title">Reverse Image Search</h2>
-                    <p class="tool-subtitle">Find similar images across the web</p>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label for="image-input">Upload Image</label>
-                <input type="file" id="image-input" accept="image/*">
-            </div>
-            
-            <div class="result-container" id="image-result">
-                <div class="result-header">
+                
+                <div class="input-group">
+                    <label for="image-input">Upload Image</label>
+                    <input type="file" id="image-input" accept="image/*">
+                </div>
+                
+                <div class="result-container" id="image-result" style="display: none;">
                     <h3 class="result-title">
                         <i class="fas fa-images"></i> Results
                     </h3>
+                    <div id="image-result-content"></div>
                 </div>
-                <div id="image-result-content"></div>
             </div>
-        </div>
-    </div>
 
-    <!-- Floating Action Button -->
-    <div class="fab" id="quick-actions-btn">
-        <i class="fas fa-bolt"></i>
-    </div>
+            <!-- Phone Lookup Tool -->
+            <div id="phone-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">📞</div>
+                    <h2 class="tool-title">Phone Number Lookup</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="phone-input">Phone Number</label>
+                    <input type="text" id="phone-input" placeholder="+1234567890">
+                </div>
+                
+                <button id="check-phone">
+                    <i class="fas fa-search"></i> Lookup Number
+                </button>
+                
+                <div class="result-container" id="phone-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-phone-alt"></i> Results
+                    </h3>
+                    <div id="phone-result-content"></div>
+                </div>
+            </div>
 
-    <!-- Quick Actions Menu -->
-    <div class="quick-actions-menu" id="quick-actions-menu">
-        <div class="quick-action-card">
-            <h4><i class="fas fa-rocket"></i> Quick Actions</h4>
-            <button class="quick-action-btn" data-action="clear-all">
-                <i class="fas fa-broom"></i> Clear All
-            </button>
-            <button class="quick-action-btn" data-action="screenshot">
-                <i class="fas fa-camera"></i> Capture Results
-            </button>
-            <button class="quick-action-btn" data-action="export-json">
-                <i class="fas fa-file-export"></i> Export Data
-            </button>
+            <!-- Domain Age Tool -->
+            <div id="domain-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">🌍</div>
+                    <h2 class="tool-title">Domain Age Checker</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="domain-input">Domain Name</label>
+                    <input type="text" id="domain-input" placeholder="example.com">
+                </div>
+                
+                <button id="check-domain">
+                    <i class="fas fa-search"></i> Check Age
+                </button>
+                
+                <div class="result-container" id="domain-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-clock"></i> Results
+                    </h3>
+                    <div id="domain-result-content"></div>
+                </div>
+            </div>
+
+            <!-- Social Media Tool -->
+            <div id="social-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">👥</div>
+                    <h2 class="tool-title">Social Media Finder</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="social-input">Username or Profile URL</label>
+                    <input type="text" id="social-input" placeholder="username or URL">
+                </div>
+                
+                <button id="check-social">
+                    <i class="fas fa-search"></i> Find Profiles
+                </button>
+                
+                <div class="result-container" id="social-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-share-alt"></i> Results
+                    </h3>
+                    <div id="social-result-content"></div>
+                </div>
+            </div>
+
+            <!-- Breach Check Tool -->
+            <div id="breach-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">🔓</div>
+                    <h2 class="tool-title">Breach Checker</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="breach-input">Email or Username</label>
+                    <input type="text" id="breach-input" placeholder="test@example.com">
+                </div>
+                
+                <button id="check-breach">
+                    <i class="fas fa-search"></i> Check Breaches
+                </button>
+                
+                <div class="result-container" id="breach-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-shield-alt"></i> Results
+                    </h3>
+                    <div id="breach-result-content"></div>
+                </div>
+            </div>
+
+            <!-- Metadata Tool -->
+            <div id="metadata-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">📁</div>
+                    <h2 class="tool-title">Metadata Extractor</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="metadata-input">Upload File</label>
+                    <input type="file" id="metadata-input">
+                </div>
+                
+                <div class="result-container" id="metadata-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-file-code"></i> Results
+                    </h3>
+                    <div id="metadata-result-content"></div>
+                </div>
+            </div>
+
+            <!-- Google Dorking Tool -->
+            <div id="dorking-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">🕵️</div>
+                    <h2 class="tool-title">Google Dork Generator</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="dork-type">Dork Type</label>
+                    <select id="dork-type">
+                        <option value="site:">Site Specific</option>
+                        <option value="filetype:">File Type</option>
+                        <option value="intitle:">In Title</option>
+                        <option value="inurl:">In URL</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="dork-query">Search Query</label>
+                    <input type="text" id="dork-query" placeholder="admin login">
+                </div>
+                
+                <button id="generate-dork">
+                    <i class="fas fa-magic"></i> Generate Dork
+                </button>
+                
+                <div class="result-container" id="dorking-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-google"></i> Results
+                    </h3>
+                    <div id="dorking-result-content"></div>
+                </div>
+            </div>
+
+            <!-- Wayback Tool -->
+            <div id="archive-tool" class="tool-window">
+                <div class="tool-header">
+                    <div class="nav-icon">⏳</div>
+                    <h2 class="tool-title">Wayback Machine</h2>
+                </div>
+                
+                <div class="input-group">
+                    <label for="archive-input">URL</label>
+                    <input type="text" id="archive-input" placeholder="https://example.com">
+                </div>
+                
+                <button id="check-archive">
+                    <i class="fas fa-search"></i> Check Archives
+                </button>
+                
+                <div class="result-container" id="archive-result" style="display: none;">
+                    <h3 class="result-title">
+                        <i class="fas fa-history"></i> Results
+                    </h3>
+                    <div id="archive-result-content"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Tab Switching
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Update active tab
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+        // Tool Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                // Update active nav item
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
                 
                 // Hide all tool windows
                 document.querySelectorAll('.tool-window').forEach(tool => {
@@ -786,186 +606,162 @@
                 });
                 
                 // Show selected tool
-                const toolId = btn.dataset.tool + '-tool';
+                const toolId = item.dataset.tool + '-tool';
                 document.getElementById(toolId).classList.add('active');
             });
         });
 
-        // Quick Actions Menu Toggle
-        document.getElementById('quick-actions-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            const menu = document.getElementById('quick-actions-menu');
-            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', () => {
-            document.getElementById('quick-actions-menu').style.display = 'none';
-        });
-
-        // Enhanced Email Verification
-        document.getElementById('check-email').addEventListener('click', verifyEmail);
-        document.getElementById('email-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') verifyEmail();
-        });
-
-        function verifyEmail() {
+        // Email Verification
+        document.getElementById('check-email').addEventListener('click', () => {
             const email = document.getElementById('email-input').value.trim();
             const resultContainer = document.getElementById('email-result');
             const resultContent = document.getElementById('email-result-content');
-            const loader = document.getElementById('email-loader');
-            const btnText = document.getElementById('email-btn-text');
             
             if (!email) {
-                showNotification('Please enter an email address', 'error');
+                alert('Please enter an email address');
                 return;
             }
             
-            // Validate email format
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showNotification('Please enter a valid email address', 'error');
-                return;
-            }
-            
-            // Show loading state
-            loader.style.display = 'inline-block';
-            btnText.textContent = ' Verifying...';
             resultContainer.style.display = 'block';
-            resultContent.innerHTML = '<p class="loading-text"><span class="loader"></span> Checking email servers...</p>';
+            resultContent.innerHTML = `
+                <p>Checking email: <strong>${email}</strong></p>
+                <p class="loading">Verifying... <i class="fas fa-spinner fa-spin"></i></p>
+            `;
             
             // Simulate API call
             setTimeout(() => {
-                // Mock responses
-                const responses = [
-                    { 
-                        valid: true, 
-                        message: "Valid email address", 
-                        details: "MX records found for domain",
-                        domainAge: "5 years",
-                        disposable: false
-                    },
-                    { 
-                        valid: false, 
-                        message: "Invalid domain", 
-                        details: "No MX records found",
-                        domainAge: null,
-                        disposable: false
-                    },
-                    { 
-                        valid: false, 
-                        message: "Disposable email", 
-                        details: "Detected temp-mail service",
-                        domainAge: "1 day",
-                        disposable: true
-                    }
+                const isValid = Math.random() > 0.3;
+                resultContent.innerHTML = `
+                    <div class="result-item ${isValid ? 'positive' : 'negative'}">
+                        <i class="fas fa-${isValid ? 'check-circle' : 'times-circle'}"></i>
+                        ${isValid ? 'Valid email address' : 'Invalid email or domain'}
+                    </div>
+                    <div class="result-details">
+                        <p><strong>Domain:</strong> ${email.split('@')[1] || 'N/A'}</p>
+                        ${isValid ? 
+                            '<p class="positive">MX records found</p>' : 
+                            '<p class="negative">No MX records found</p>'}
+                    </div>
+                `;
+            }, 1500);
+        });
+
+        // Username Search
+        document.getElementById('check-username').addEventListener('click', () => {
+            const username = document.getElementById('username-input').value.trim();
+            const resultContainer = document.getElementById('username-result');
+            const resultContent = document.getElementById('username-result-content');
+            
+            if (!username) {
+                alert('Please enter a username');
+                return;
+            }
+            
+            resultContainer.style.display = 'block';
+            resultContent.innerHTML = `
+                <p>Searching for: <strong>${username}</strong></p>
+                <p class="loading">Checking platforms... <i class="fas fa-spinner fa-spin"></i></p>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                const platforms = [
+                    { name: 'GitHub', url: `https://github.com/${username}`, exists: Math.random() > 0.5 },
+                    { name: 'Twitter', url: `https://twitter.com/${username}`, exists: Math.random() > 0.5 },
+                    { name: 'Instagram', url: `https://instagram.com/${username}`, exists: Math.random() > 0.5 },
+                    { name: 'Reddit', url: `https://reddit.com/user/${username}`, exists: Math.random() > 0.5 }
                 ];
                 
-                const response = responses[Math.floor(Math.random() * responses.length)];
-                const domain = email.split('@')[1];
-                
-                let resultHTML = `
-                    <div class="result-grid">
-                        <div class="result-status ${response.valid ? 'success' : 'error'}">
-                            <i class="fas fa-${response.valid ? 'check-circle' : 'times-circle'}"></i>
-                            ${response.message}
+                let resultsHTML = '<div class="platform-results">';
+                platforms.forEach(platform => {
+                    resultsHTML += `
+                        <div class="platform ${platform.exists ? 'exists' : 'not-exists'}">
+                            <span>${platform.name}</span>
+                            <a href="${platform.url}" target="_blank">${platform.exists ? 'View Profile' : 'Not Found'}</a>
                         </div>
-                        <div class="result-details">
-                            <p><strong>Email:</strong> <code>${email}</code></p>
-                            <p><strong>Domain:</strong> ${domain}</p>
-                            <p><strong>Details:</strong> ${response.details}</p>
-                            ${response.domainAge ? `<p><strong>Domain Age:</strong> ${response.domainAge}</p>` : ''}
-                            ${response.disposable ? `<p><strong>Type:</strong> Disposable email</p>` : ''}
+                    `;
+                });
+                resultsHTML += '</div>';
+                
+                resultContent.innerHTML = resultsHTML;
+            }, 2000);
+        });
+
+        // IP Lookup
+        document.getElementById('check-ip').addEventListener('click', () => {
+            const ip = document.getElementById('ip-input').value.trim();
+            const resultContainer = document.getElementById('ip-result');
+            const resultContent = document.getElementById('ip-result-content');
+            
+            if (!ip) {
+                alert('Please enter an IP address');
+                return;
+            }
+            
+            resultContainer.style.display = 'block';
+            resultContent.innerHTML = `
+                <p>Looking up: <strong>${ip}</strong></p>
+                <p class="loading">Fetching data... <i class="fas fa-spinner fa-spin"></i></p>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                resultContent.innerHTML = `
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <strong>IP:</strong> ${ip}
+                        </div>
+                        <div class="result-item">
+                            <strong>Location:</strong> ${['New York', 'London', 'Tokyo', 'Sydney'][Math.floor(Math.random() * 4)]}
+                        </div>
+                        <div class="result-item">
+                            <strong>ISP:</strong> ${['Comcast', 'Verizon', 'AT&T', 'Google'][Math.floor(Math.random() * 4)]}
+                        </div>
+                        <div class="result-item">
+                            <strong>ASN:</strong> AS${Math.floor(Math.random() * 10000)}
                         </div>
                     </div>
                 `;
-                
-                if (!response.valid) {
-                    resultHTML += `
-                        <div class="suggestion">
-                            <i class="fas fa-lightbulb"></i> 
-                            Try verifying with <a href="#" id="alternative-check">alternative method</a>
-                        </div>
-                    `;
-                }
-                
-                resultContent.innerHTML = resultHTML;
-                loader.style.display = 'none';
-                btnText.innerHTML = '<i class="fas fa-search"></i> Verify Email';
-                
-                // Add event listener for alternative check
-                const altCheck = document.getElementById('alternative-check');
-                if (altCheck) {
-                    altCheck.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        resultContent.innerHTML = '<p class="loading-text"><span class="loader"></span> Trying alternative verification method...</p>';
-                        setTimeout(() => {
-                            resultContent.innerHTML += '<p class="success">✓ Additional checks completed</p>';
-                        }, 1500);
-                    });
-                }
             }, 1500);
-        }
-
-        // Notification System
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-                ${message}
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.add('fade-out');
-                setTimeout(() => notification.remove(), 500);
-            }, 3000);
-        }
-
-        // Quick Actions Functionality
-        document.querySelectorAll('.quick-action-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const action = this.dataset.action;
-                
-                switch(action) {
-                    case 'clear-all':
-                        clearAllTools();
-                        break;
-                    case 'screenshot':
-                        takeScreenshot();
-                        break;
-                    case 'export-json':
-                        exportData();
-                        break;
-                }
-                
-                document.getElementById('quick-actions-menu').style.display = 'none';
-            });
         });
 
-        function clearAllTools() {
-            // Clear all inputs
-            document.querySelectorAll('input[type="text"], input[type="email"]').forEach(input => {
-                input.value = '';
-            });
+        // WHOIS Lookup
+        document.getElementById('check-whois').addEventListener('click', () => {
+            const domain = document.getElementById('whois-input').value.trim();
+            const resultContainer = document.getElementById('whois-result');
+            const resultContent = document.getElementById('whois-result-content');
             
-            // Hide all results
-            document.querySelectorAll('.result-container').forEach(container => {
-                container.style.display = 'none';
-            });
+            if (!domain) {
+                alert('Please enter a domain name');
+                return;
+            }
             
-            showNotification('All tools cleared', 'success');
-        }
-
-        function takeScreenshot() {
-            showNotification('Screenshot captured (check downloads)', 'success');
-            // Actual screenshot functionality would use html2canvas
-        }
-
-        function exportData() {
-            showNotification('Data exported as JSON', 'success');
-            // Actual export functionality would gather data and create download
-        }
+            resultContainer.style.display = 'block';
+            resultContent.innerHTML = `
+                <p>Querying: <strong>${domain}</strong></p>
+                <p class="loading">Checking WHOIS records... <i class="fas fa-spinner fa-spin"></i></p>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                const createdDate = new Date();
+                createdDate.setFullYear(createdDate.getFullYear() - Math.floor(Math.random() * 10));
+                
+                resultContent.innerHTML = `
+                    <pre>
+Domain Name: ${domain}
+Registrar: ${['GoDaddy', 'Namecheap', 'Google Domains', 'Cloudflare'][Math.floor(Math.random() * 4)]}
+Creation Date: ${createdDate.toISOString().split('T')[0]}
+Expiration Date: ${new Date(createdDate.setFullYear(createdDate.getFullYear() + 1)).toISOString().split('T')[0]}
+Name Servers: 
+    ns1.${domain}
+    ns2.${domain}
+Registrant Email: redacted@privacyprotect.org
+Status: clientTransferProhibited
+                    </pre>
+                `;
+            }, 2000);
+        });
 
         // Initialize first tool
         document.getElementById('email-tool').classList.add('active');
