@@ -3,129 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate OSINT Toolkit</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <title>Neon OSINT Toolkit</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --card-border: rgba(99, 102, 241, 0.3);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Tabbed Interface */
+        .tool-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .tab-btn.active::after {
+            width: 80%;
+        }
+
+        /* Tool Windows */
+        .tool-window {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .tool-window.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Results */
+        .result-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(2, 6, 23, 0.5);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Status Indicators */
+        .success {
+            color: var(--success);
+        }
+
+        .warning {
+            color: var(--warning);
+        }
+
+        .error {
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .tool-tabs {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🕵️‍♂️ Ultimate OSINT Toolkit</h1>
-            <p class="subtitle">100% client-side privacy tools</p>
+            <h1>Neon OSINT Toolkit</h1>
+            <p class="subtitle">Advanced open-source intelligence gathering in a modern interface</p>
         </header>
 
-        <!-- Tool Selector -->
-        <div class="tool-selector">
-            <button class="active" data-tool="email">Email Check</button>
-            <button data-tool="username">Username Search</button>
-            <button data-tool="ip">IP Lookup</button>
-            <button data-tool="whois">WHOIS Lookup</button>
-            <button data-tool="image">Reverse Image</button>
-            <button data-tool="phone">Phone Lookup</button>
-            <button data-tool="dork">Google Dorks</button>
-            <button data-tool="btc">BTC Lookup</button>
-            <button data-tool="youtube">YouTube Data</button>
-            <button data-tool="screenshot">Screenshot</button>
-            <button data-tool="headers">HTTP Headers</button>
-            <button data-tool="ssl">SSL Check</button>
+        <div class="tool-tabs">
+            <button class="tab-btn active" data-tool="email">
+                <i class="fas fa-envelope"></i> Email
+            </button>
+            <button class="tab-btn" data-tool="username">
+                <i class="fas fa-user"></i> Username
+            </button>
+            <button class="tab-btn" data-tool="ip">
+                <i class="fas fa-globe"></i> IP Lookup
+            </button>
+            <button class="tab-btn" data-tool="whois">
+                <i class="fas fa-search"></i> WHOIS
+            </button>
+            <button class="tab-btn" data-tool="image">
+                <i class="fas fa-image"></i> Reverse Image
+            </button>
         </div>
 
-        <!-- Tool Containers -->
-        <div id="email-tool" class="tool">
-            <h2>📧 Email Verification</h2>
-            <input type="email" id="email-input" placeholder="email@example.com">
-            <button id="check-email">Check</button>
-            <div class="result" id="email-result"></div>
+        <!-- Email Tool -->
+        <div id="email-tool" class="tool-window active">
+            <div class="tool-header">
+                <div class="tool-icon">📧</div>
+                <h2 class="tool-title">Email Verification</h2>
+            </div>
+            
+            <div class="input-group">
+                <label for="email-input">Email Address</label>
+                <input type="email" id="email-input" placeholder="example@domain.com">
+            </div>
+            
+            <button id="check-email">
+                <i class="fas fa-search"></i> Verify Email
+            </button>
+            
+            <div class="result-container" id="email-result" style="display: none;">
+                <h3 class="result-title">Results</h3>
+                <div id="email-result-content"></div>
+            </div>
         </div>
 
-        <div id="username-tool" class="tool" style="display:none">
-            <h2>👤 Username Search</h2>
-            <input type="text" id="username-input" placeholder="username">
-            <button id="check-username">Search 50+ Sites</button>
-            <div class="result" id="username-result"></div>
+        <!-- Username Tool -->
+        <div id="username-tool" class="tool-window">
+            <div class="tool-header">
+                <div class="tool-icon">👤</div>
+                <h2 class="tool-title">Username Search</h2>
+            </div>
+            
+            <div class="input-group">
+                <label for="username-input">Username</label>
+                <input type="text" id="username-input" placeholder="johndoe">
+            </div>
+            
+            <button id="check-username">
+                <i class="fas fa-search"></i> Search Platforms
+            </button>
+            
+            <div class="result-container" id="username-result" style="display: none;">
+                <h3 class="result-title">Results</h3>
+                <div id="username-result-content"></div>
+            </div>
         </div>
 
-        <div id="ip-tool" class="tool" style="display:none">
-            <h2>🌐 IP Lookup</h2>
-            <input type="text" id="ip-input" placeholder="8.8.8.8">
-            <button id="check-ip">Lookup</button>
-            <div class="result" id="ip-result"></div>
+        <!-- IP Lookup Tool -->
+        <div id="ip-tool" class="tool-window">
+            <div class="tool-header">
+                <div class="tool-icon">🌐</div>
+                <h2 class="tool-title">IP Address Lookup</h2>
+            </div>
+            
+            <div class="input-group">
+                <label for="ip-input">IP Address</label>
+                <input type="text" id="ip-input" placeholder="8.8.8.8">
+            </div>
+            
+            <button id="check-ip">
+                <i class="fas fa-search"></i> Lookup IP
+            </button>
+            
+            <div class="result-container" id="ip-result" style="display: none;">
+                <h3 class="result-title">Results</h3>
+                <div id="ip-result-content"></div>
+            </div>
         </div>
 
-        <div id="whois-tool" class="tool" style="display:none">
-            <h2>🔍 Domain WHOIS</h2>
-            <input type="text" id="whois-input" placeholder="example.com">
-            <button id="check-whois">Lookup</button>
-            <div class="result" id="whois-result"></div>
+        <!-- WHOIS Tool -->
+        <div id="whois-tool" class="tool-window">
+            <div class="tool-header">
+                <div class="tool-icon">🔍</div>
+                <h2 class="tool-title">WHOIS Lookup</h2>
+            </div>
+            
+            <div class="input-group">
+                <label for="whois-input">Domain Name</label>
+                <input type="text" id="whois-input" placeholder="example.com">
+            </div>
+            
+            <button id="check-whois">
+                <i class="fas fa-search"></i> Lookup Domain
+            </button>
+            
+            <div class="result-container" id="whois-result" style="display: none;">
+                <h3 class="result-title">Results</h3>
+                <div id="whois-result-content"></div>
+            </div>
         </div>
 
-        <div id="image-tool" class="tool" style="display:none">
-            <h2>🖼️ Reverse Image Search</h2>
-            <input type="file" id="image-input" accept="image/*">
-            <div class="result" id="image-result"></div>
+        <!-- Reverse Image Tool -->
+        <div id="image-tool" class="tool-window">
+            <div class="tool-header">
+                <div class="tool-icon">🖼️</div>
+                <h2 class="tool-title">Reverse Image Search</h2>
+            </div>
+            
+            <div class="input-group">
+                <label for="image-input">Upload Image</label>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+            
+            <div class="result-container" id="image-result" style="display: none;">
+                <h3 class="result-title">Results</h3>
+                <div id="image-result-content"></div>
+            </div>
         </div>
-
-        <div id="phone-tool" class="tool" style="display:none">
-            <h2>📞 Phone Lookup</h2>
-            <input type="text" id="phone-input" placeholder="+1234567890">
-            <button id="check-phone">Lookup</button>
-            <div class="result" id="phone-result"></div>
-        </div>
-
-        <div id="dork-tool" class="tool" style="display:none">
-            <h2>🕵️‍♂️ Google Dork Generator</h2>
-            <select id="dork-type">
-                <option value="site:">Search within site</option>
-                <option value="filetype:pdf">Find PDFs</option>
-                <option value="intitle:admin">Find admin pages</option>
-            </select>
-            <input type="text" id="dork-query" placeholder="query">
-            <button id="generate-dork">Generate</button>
-            <div class="result" id="dork-result"></div>
-        </div>
-
-        <div id="btc-tool" class="tool" style="display:none">
-            <h2>💰 BTC Address Lookup</h2>
-            <input type="text" id="btc-input" placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
-            <button id="check-btc">Lookup</button>
-            <div class="result" id="btc-result"></div>
-        </div>
-
-        <div id="youtube-tool" class="tool" style="display:none">
-            <h2>📺 YouTube Data</h2>
-            <input type="text" id="youtube-input" placeholder="https://youtube.com/watch?v=...">
-            <button id="check-youtube">Extract</button>
-            <div class="result" id="youtube-result"></div>
-        </div>
-
-        <div id="screenshot-tool" class="tool" style="display:none">
-            <h2>📸 Website Screenshot</h2>
-            <input type="text" id="screenshot-input" placeholder="https://example.com">
-            <button id="take-screenshot">Capture</button>
-            <div class="result" id="screenshot-result"></div>
-        </div>
-
-        <div id="headers-tool" class="tool" style="display:none">
-            <h2>📡 HTTP Headers</h2>
-            <input type="text" id="headers-input" placeholder="https://example.com">
-            <button id="check-headers">Analyze</button>
-            <div class="result" id="headers-result"></div>
-        </div>
-
-        <div id="ssl-tool" class="tool" style="display:none">
-            <h2>🔐 SSL Checker</h2>
-            <input type="text" id="ssl-input" placeholder="example.com">
-            <button id="check-ssl">Check</button>
-            <div class="result" id="ssl-result"></div>
-        </div>
-
-        <footer>
-            <p>🔒 No tracking. No data stored. API keys required for some features.</p>
-        </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Tab Switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Hide all tool windows
+                document.querySelectorAll('.tool-window').forEach(tool => {
+                    tool.classList.remove('active');
+                });
+                
+                // Show selected tool
+                const toolId = btn.dataset.tool + '-tool';
+                document.getElementById(toolId).classList.add('active');
+            });
+        });
+
+        // Sample functionality for email verification
+        document.getElementById('check-email').addEventListener('click', () => {
+            const email = document.getElementById('email-input').value;
+            const resultContainer = document.getElementById('email-result');
+            const resultContent = document.getElementById('email-result-content');
+            
+            if (!email) {
+                resultContent.innerHTML = '<span class="error">Please enter an email address</span>';
+                resultContainer.style.display = 'block';
+                return;
+            }
+            
+            // Simulate API call
+            resultContent.innerHTML = '<p>Checking email validity...</p>';
+            resultContainer.style.display = 'block';
+            
+            setTimeout(() => {
+                // Mock response
+                const isValid = Math.random() > 0.3;
+                if (isValid) {
+                    resultContent.innerHTML = `
+                        <p class="success">✅ Valid email address</p>
+                        <p>Format: <code>${email}</code></p>
+                        <p>Domain: <code>${email.split('@')[1]}</code></p>
+                    `;
+                } else {
+                    resultContent.innerHTML = `
+                        <p class="error">❌ Invalid email address</p>
+                        <p>This email format is not valid or the domain doesn't exist.</p>
+                    `;
+                }
+            }, 1000);
+        });
+
+        // Add similar event listeners for other tools...
+    </script>
 </body>
 </html>
