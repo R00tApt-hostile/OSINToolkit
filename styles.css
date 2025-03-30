@@ -1,47 +1,66 @@
+/* ===== Base Styles ===== */
 :root {
-  --bg-primary: rgba(255, 255, 255, 0.85);
-  --text-primary: #2d3748;
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
-  --accent: #4f46e5;
-}
-
-.dark-mode {
-  --bg-primary: rgba(15, 23, 42, 0.9);
+  --bg-dark: #0f172a;
+  --bg-darker: #020617;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
   --text-primary: #f8fafc;
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  --accent: #7c3aed;
+  --text-secondary: #94a3b8;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --card-bg: rgba(15, 23, 42, 0.9);
+  --card-border: rgba(99, 102, 241, 0.3);
 }
 
-/* Glassmorphism Elements */
-.tool, .result, button {
-  background: var(--bg-primary);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-darker);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  margin: 0;
+  background-image: 
+    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
 }
 
-/* Animated Tool Selector */
-.tool-selector button {
-  transition: all 0.3s ease;
-  transform: scale(0.95);
-}
-.tool-selector button:hover {
-  transform: scale(1);
-}
-.tool-selector button.active {
-  transform: scale(1.05);
-  border-bottom: 3px solid var(--accent);
+/* ===== Tool Grid Layout ===== */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
-/* Modern Inputs */
-input, select {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s;
+/* ===== Result Cards ===== */
+.result-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
-input:focus {
-  border-color: var(--accent);
+
+.result-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== Loading Animation ===== */
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.loading {
+  animation: pulse 1.5s infinite;
+}
+
+/* ===== Mobile Responsiveness ===== */
+@media (max-width: 768px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
 }
