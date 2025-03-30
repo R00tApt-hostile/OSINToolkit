@@ -1,6 +1,8 @@
 **🔍 Ultimate OSINT Toolkit**  
 *A privacy-focused, client-side Open Source Intelligence (OSINT) toolkit that works entirely in your browser. No server needed!*
 
+[![Try it out!](https://img.shields.io/badge/🚀_Try_It-Click_Here-blue?style=for-the-badge&logo=github&color=1DA1F2)](https://r00tapt-hostile.github.io/OSINToolkit/)
+
 ### **Features:**
 - ✅ **Email Verification** (Mailboxlayer API)  
 - 👤 **Username Search** (50+ social platforms)  
