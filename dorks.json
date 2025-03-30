@@ -1,0 +1,12 @@
+[
+  {"prefix": "site:", "description": "Search within a specific site"},
+  {"prefix": "filetype:pdf", "description": "Find PDF files"},
+  {"prefix": "intitle:admin", "description": "Find admin pages"},
+  {"prefix": "inurl:login", "description": "Find login pages"},
+  {"prefix": "ext:php", "description": "Find PHP files"},
+  {"prefix": "intext:password", "description": "Find pages containing 'password'"},
+  {"prefix": "cache:", "description": "Show cached version of a page"},
+  {"prefix": "related:", "description": "Find similar sites"},
+  {"prefix": "define:", "description": "Get definitions"},
+  {"prefix": "weather:", "description": "Get weather info"}
+]
