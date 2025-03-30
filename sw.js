@@ -1,30 +1,25 @@
-const CACHE_VERSION = 'v3';
-const CACHE_FILES = [
+const CACHE_NAME = 'osint-toolkit-v2';
+const ASSETS = [
   '/',
   '/index.html',
   '/styles.css',
   '/script.js',
-  '/fallback.json'
+  '/platforms.json',
+  '/dorks.json',
+  '/assets/icon-192.png',
+  '/assets/icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_VERSION)
-      .then(cache => cache.addAll(CACHE_FILES))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS))
   );
 });
 
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    fetch(e.request)
-      .then(response => {
-        // Cache successful responses
-        const clone = response.clone();
-        caches.open(CACHE_VERSION)
-          .then(cache => cache.put(e.request, clone));
-        return response;
-      })
-      .catch(() => caches.match(e.request))
+    caches.match(e.request)
+      .then(response => response || fetch(e.request))
   );
 });
